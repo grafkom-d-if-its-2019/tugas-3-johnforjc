@@ -13,6 +13,9 @@ uniform float jalanX;
 uniform float jalanY;
 uniform float jalanZ;
 uniform int gambarCube;
+uniform mat4 modelMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 projectionMatrix;
 
 void main() {
   mat4 translasi = mat4
@@ -29,16 +32,16 @@ void main() {
     0.0, 0.0, 0.0, 1.0
   );
   if(gambarCube==0) {
-    gl_Position = translasi * scalationMatrix * vec4(vPosition, 0.0, 1.0);
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * translasi  * scalationMatrix * vec4(vPosition, 0.0, 1.0);
     fColor = vColor;
   }
   else if(gambarCube==1){
-    gl_Position = vec4(vPositionCubeLine, 1.0);
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vPositionCubeLine, 1.0);
     fColor = vColorCubeLine;
   }
   else if(gambarCube==2)
   {
-    gl_Position = vec4(vPositionCubePlane, 1.0);
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(vPositionCubePlane, 1.0);
     fColor = vColorCubeLine;
   }
 }
