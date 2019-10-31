@@ -41,7 +41,7 @@
       var vertexKananTerjauh = 0.15;
       var vertexAtasTerjauh  = 0.30;
       var vertexBawahTerjauh = -0.6;
-      var ukuranTerjauh = 0.5;
+      var ukuranTerjauh = 1.0;
 
       function bounceChecking(){
           // Checking X koordinat
