@@ -149,54 +149,63 @@
       }
   
       function initWordVertices() {
-          var vertices=[];
-          var bagian_atas=[
-              -0.15 , +0.30,
-              -0.15 , +0.20,
-              +0.15 , +0.20,
-              +0.15 , +0.30,
-              -0.15 , +0.30,
-          ];
-          
-          var bagian_tegak=[
-              -0.05 , +0.30,
-              +0.05 , +0.30,
-              +0.05 , -0.40,
-              -0.05 , -0.40,
-              -0.05 , +0.30,
-          ];
-          
-          var vertexBuffer = gl.createBuffer(),
-          lingkaran =[];
-          
-          for (var i=90.0; i<=270; i+=1) {
-              var j = i * Math.PI / 180;
-              var vert1 = [
-                  Math.sin(j)*0.2-0.15,
-                  Math.cos(j)*0.2-0.40,
-              ];
-              lingkaran=lingkaran.concat(vert1);
-              
-              var vert2 = [
-                  Math.sin(j)*0.1-0.15,
-                  Math.cos(j)*0.1-0.40,
-              ];
-              lingkaran=lingkaran.concat(vert2);
-          }
-          bagian_atas=bagian_atas.concat(bagian_tegak);
-          vertices=vertices.concat(bagian_atas);
-          vertices=vertices.concat(lingkaran);
-          
-          var n = vertices.length / 2;
-          gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-          
-          var vPosition = gl.getAttribLocation(program, 'vPosition');
-          gl.enableVertexAttribArray(vPosition);
-          gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
-          
-          return n;
-      }
+        var vertices=[];
+        var bagian_atas=[
+            -0.15 , +0.30, 0.866, 0.968, 1,
+            -0.15 , +0.20, 0.866, 0.968, 1,
+            +0.15 , +0.20, 0.866, 0.968, 1,
+            +0.15 , +0.30, 0.866, 0.968, 1,
+            -0.15 , +0.30, 0.866, 0.968, 1,
+        ];
+        
+        var bagian_tegak=[
+            -0.05 , +0.30, 0.866, 0.968, 1,
+            +0.05 , +0.30, 0.866, 0.968, 1,
+            +0.05 , -0.40, 0.866, 0.968, 1,
+            -0.05 , -0.40, 0.866, 0.968, 1,
+            -0.05 , +0.30, 0.866, 0.968, 1,
+        ];
+        
+        var lingkaran =[];
+        var vertexBuffer = gl.createBuffer();
+
+        
+        for (var i=90.0; i<=270; i+=1) {
+            var j = i * Math.PI / 180;
+            var vert1 = [
+                Math.sin(j)*0.2-0.15,
+                Math.cos(j)*0.2-0.40,
+                0.866, 0.968, 1,
+            ];
+            lingkaran=lingkaran.concat(vert1);
+            
+            var vert2 = [
+                Math.sin(j)*0.1-0.15,
+                Math.cos(j)*0.1-0.40,
+                0.866, 0.968, 1,
+            ];
+            lingkaran=lingkaran.concat(vert2);
+
+            if(i==90 || i==180 || i==270) console.log(i, vert1, vert2)
+        }
+        bagian_atas=bagian_atas.concat(bagian_tegak);
+        vertices=vertices.concat(bagian_atas);
+        vertices=vertices.concat(lingkaran);
+        
+        var n = vertices.length / 5;
+        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+        
+        var vPosition = gl.getAttribLocation(program, 'vPosition');
+        var vColor = gl.getAttribLocation(program, 'vColor');
+        gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 5 * Float32Array.BYTES_PER_ELEMENT, 0);
+        gl.vertexAttribPointer(vColor, 3, gl.FLOAT, gl.FALSE,
+            5 * Float32Array.BYTES_PER_ELEMENT, 2 * Float32Array.BYTES_PER_ELEMENT);
+        gl.enableVertexAttribArray(vPosition);
+        gl.enableVertexAttribArray(vColor);
+        
+        return n;
+    }
 
       function initCubeVertices() {
         var verticesCubePlane = [];
